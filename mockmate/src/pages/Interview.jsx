@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InterviewCard from "../components/InterviewCard"; // Adjust path based on your structure
 
 const MOCK_QUESTIONS = [
@@ -16,7 +16,7 @@ const MOCK_QUESTIONS = [
 ];
 
 export default function Interview() {
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,7 +54,7 @@ export default function Interview() {
           suggestions: ["Quantify achievements with numbers.", "Practice active listening."],
         }));
         localStorage.setItem("mockmate_feedback", JSON.stringify(feedbackData));
-        // navigate("/summary");
+        navigate("/summary");
       }
     }, 1500);
   };

@@ -8,11 +8,10 @@ import { GuestStartSection } from "../components/GuestStartSection";
 const Home = () => {
   return (
     <>
-      <Navbar />
       <HeroSection />
       <HowItWorks/>
       <GuestStartSection/>
-      <Footer />
+      
     </>
   );
 };
