@@ -5,6 +5,7 @@ import Interview from "./pages/Interview";
 import "./App.css";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import Summary from "./pages/Summary";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/interview" element={<Interview />} />
+        <Route path="/summary" element={<Summary />} />
       </Routes>
     <Footer />
     </BrowserRouter>

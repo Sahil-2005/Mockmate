@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FeedbackCard from "./FeedbackCard"; // Adjust path based on where you place FeedbackCard.jsx
+import FeedbackCard from "../components/FeedbackCard"; // Adjust path based on where you place FeedbackCard.jsx
 
 export default function Summary() {
   const [feedback, setFeedback] = useState([]);
