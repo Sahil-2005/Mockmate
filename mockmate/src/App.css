@@ -1,1 +1,20 @@
 @import 'tailwindcss';
+
+/* public/print.css */
+@media print {
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .container {
+    max-width: none;
+    width: 100%;
+    padding: 0;
+  }
+}
