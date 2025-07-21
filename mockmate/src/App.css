@@ -1,6 +1,5 @@
 @import 'tailwindcss';
 
-/* public/print.css */
 @media print {
   button,
   .no-print {
