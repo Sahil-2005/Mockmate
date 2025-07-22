@@ -16,8 +16,7 @@ app.post("/api/generate-questions", async (req, res) => {
   if (!jobRole) return res.status(400).json({ error: "Job role required" });
 
   try {
-    // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // or gemini-1.5-pro if you prefer
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" }); // or gemini-1.5-pro if you prefer
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // or gemini-1.5-pro if you prefer
 
     const prompt = `
 Generate 5 technical and 5 behavioral interview questions for the role of "${jobRole}".
