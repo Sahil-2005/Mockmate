@@ -16,7 +16,8 @@ app.post("/api/generate-questions", async (req, res) => {
   if (!jobRole) return res.status(400).json({ error: "Job role required" });
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // or gemini-1.5-pro if you prefer
+    // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // or gemini-1.5-pro if you prefer
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // or gemini-1.5-pro if you prefer
 
     const prompt = `
 Generate 5 technical and 5 behavioral interview questions for the role of "${jobRole}".
@@ -58,59 +59,62 @@ Do not include markdown or triple backticks or text outside the array.
 app.post("/api/feedback", async (req, res) => {
   try {
     const { responses } = req.body;
-    const prompt = responses.map((r, i) =>
-      `Q${i + 1}: ${r.question}\nA: ${r.answer}\n`
-    ).join("\n");
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const result = await model.generateContent(`Evaluate the following interview answers and provide: strengths, weaknesses, and actionable suggestions:\n\n${prompt}`);
-    const text = result.response.text();
+    if (!responses || !Array.isArray(responses)) {
+      return res.status(400).json({ error: "Invalid request body" });
+    }
 
-    // Optionally parse Gemini response into structured format
-    res.json([{ question: responses[0].question, answer: responses[0].answer, strengths: ["Sample"], weaknesses: ["Sample"], suggestions: ["Sample"] }]); // Replace with actual parsed Gemini response
+    const prompt = `
+You are an interview coach. Evaluate each interview answer below and for each, provide:
+
+1. Strengths
+2. Weaknesses
+3. Suggestions
+
+Format your response as a JSON array like this:
+[
+  {
+    "question": "....",
+    "answer": "....",
+    "strengths": ["..."],
+    "weaknesses": ["..."],
+    "suggestions": ["..."]
+  },
+  ...
+]
+
+Only return the JSON array and no other text.
+
+Here are the responses:
+${responses.map((r, i) => `Q${i + 1}: ${r.question}\nA: ${r.answer}`).join("\n\n")}
+`;
+
+    const model = genAI.getGenerativeModel({ model: "models/gemini-2.0-flash" });
+    const result = await model.generateContent(prompt);
+    let text = result.response.text();
+
+    // Clean triple backticks if present
+    if (text.startsWith("```")) {
+      text = text.replace(/```json|```/g, "").trim();
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(text);
+    } catch (err) {
+      console.error("❌ Failed to parse Gemini feedback JSON:", err);
+      console.log("Raw Gemini Response:\n", text);
+      return res.status(500).json({ error: "Invalid JSON response from Gemini" });
+    }
+
+    res.json(parsed); // Return parsed array
   } catch (err) {
-    console.error(err);
+    console.error("❌ Error generating feedback:", err);
     res.status(500).json({ error: "Failed to generate feedback" });
   }
 });
 
 
-// app.post("/api/generate-summary", async (req, res) => {
-//   const { responses } = req.body;
-
-//  const prompt = `
-// You are an expert interview coach and evaluator. Analyze the following interview session consisting of questions and the user's responses. Provide a detailed, structured summary including:
-
-// 1. Overall Impression: A paragraph describing the candidate's general performance.
-// 2. Strengths: A list of strengths with examples or patterns found across answers.
-// 3. Weaknesses: A list of weaknesses or areas for improvement.
-// 4. Suggestions: Actionable advice to help the candidate perform better in future interviews.
-
-// Here is the Q&A:
-
-// ${responses
-//   .map(
-//     (r, i) =>
-//       `Q${i + 1}: ${r.questionText}\nA${i + 1}: ${r.userAnswer || "Skipped"}\n`
-//   )
-//   .join("\n")}
-  
-// Format your response using Markdown-like structure with clear headers for each section.
-// `;
-
-
-//   try {
-//     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-//     const result = await model.generateContent(prompt);
-//     const response = await result.response;
-//     const text = response.text();
-
-//     res.json({ summary: text });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ summary: "Error generating AI summary." });
-//   }
-// });
 
 
 
