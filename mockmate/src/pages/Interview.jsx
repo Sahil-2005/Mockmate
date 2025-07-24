@@ -167,7 +167,6 @@ export default function Interview() {
   //   }, 800);
   // };
 
-
   const handleSubmitAnswer = () => {
   const updated = [...userAnswers];
   updated[currentQuestionIndex] = textareaRef.current?.value || "";
