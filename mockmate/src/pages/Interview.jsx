@@ -152,20 +152,6 @@ export default function Interview() {
     setUserAnswers(updated);
   };
 
-  // const handleSubmitAnswer = () => {
-  //   handleAnswerChange(); // Save current input
-  //   setIsSubmitting(true);
-
-  //   setTimeout(() => {
-  //     setIsSubmitting(false);
-  //     if (currentQuestionIndex < totalQuestions - 1) {
-  //       setCurrentQuestionIndex(currentQuestionIndex + 1);
-  //     } else {
-  //       localStorage.setItem("mockmate_answers", JSON.stringify(userAnswers));
-  //       navigate("/summary");
-  //     }
-  //   }, 800);
-  // };
 
   const handleSubmitAnswer = () => {
   const updated = [...userAnswers];
