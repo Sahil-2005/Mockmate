@@ -1,42 +1,37 @@
-// import React from "react";
-
-// export default function InterviewCard({ question, textareaRef, isSubmitting, onSubmit, onSkip }) {
+// export default function InterviewCard({ question, textareaRef, isSubmitting, onSubmit, onSkip, onPrevious, showPrevious }) {
 //   return (
-//     <div className="bg-white p-10 rounded-2xl shadow-2xl border border-purple-100">
-//       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 leading-snug">{question}</h2>
-
+//     <div className="bg-white rounded-lg shadow-md p-6">
+//       <p className="text-lg font-medium text-gray-800 mb-4">{question}</p>
 //       <textarea
 //         ref={textareaRef}
+//         className="w-full h-32 border border-gray-300 rounded-md p-3 text-gray-700 mb-4"
 //         placeholder="Type your answer here..."
-//         rows={8}
-//         className="p-5 w-full text-lg border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-600 transition-colors duration-200 resize-y mb-6"
 //         disabled={isSubmitting}
 //       ></textarea>
-
-//       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-//         <button
-//           onClick={() => alert("Microphone functionality is a placeholder.")}
-//           className="bg-purple-100 hover:bg-purple-200 text-purple-800 px-8 py-4 rounded-xl text-xl font-semibold flex items-center justify-center w-full sm:w-auto"
-//           disabled={isSubmitting}
-//         >
-//           🎙️ Record Answer
-//         </button>
-
-//         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+//       <div className="flex justify-between">
+//         {showPrevious && (
 //           <button
+//             className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+//             onClick={onPrevious}
+//             disabled={isSubmitting}
+//           >
+//             Previous
+//           </button>
+//         )}
+//         <div className="ml-auto space-x-4">
+//           <button
+//             className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
 //             onClick={onSkip}
-//             className="bg-gray-700 hover:bg-gray-800 text-white px-10 py-4 rounded-xl text-xl font-semibold w-full sm:w-auto"
 //             disabled={isSubmitting}
 //           >
 //             Skip
 //           </button>
-
 //           <button
+//             className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
 //             onClick={onSubmit}
-//             className="bg-purple-700 hover:bg-purple-800 text-white px-10 py-4 rounded-xl text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
 //             disabled={isSubmitting}
 //           >
-//             {isSubmitting ? "Submitting..." : "Submit Answer"}
+//             {isSubmitting ? "Submitting..." : "Next"}
 //           </button>
 //         </div>
 //       </div>
@@ -44,16 +39,112 @@
 //   );
 // }
 
-export default function InterviewCard({ question, textareaRef, isSubmitting, onSubmit, onSkip, onPrevious, showPrevious }) {
+
+import React, { useState, useEffect } from "react";
+
+export default function InterviewCard({
+  question,
+  textareaRef,
+  isSubmitting,
+  onSubmit,
+  onSkip,
+  onPrevious,
+  showPrevious,
+}) {
+  const [isRecording, setIsRecording] = useState(false);
+  const [recognition, setRecognition] = useState(null);
+  const [interimTranscript, setInterimTranscript] = useState("");
+
+  useEffect(() => {
+    if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
+      alert("Your browser does not support speech recognition.");
+      return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recog = new SpeechRecognition();
+    recog.continuous = true;
+    recog.interimResults = true;
+    recog.lang = "en-US";
+
+    recog.onresult = (event) => {
+      let final = "";
+      let interim = "";
+
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          final += transcript + " ";
+        } else {
+          interim += transcript;
+        }
+      }
+
+      if (final && textareaRef.current) {
+        textareaRef.current.value += final;
+        textareaRef.current.focus();
+      }
+
+      setInterimTranscript(interim);
+    };
+
+    recog.onerror = (e) => {
+      console.error("Speech Recognition Error:", e.error);
+    };
+
+    recog.onend = () => {
+      setIsRecording(false);
+      setInterimTranscript("");
+    };
+
+    setRecognition(recog);
+  }, [textareaRef]);
+
+  const handleToggleRecording = () => {
+    if (!recognition) return;
+
+    if (isRecording) {
+      console.log(interimTranscript);
+      recognition.stop();
+    } else {
+      recognition.start();
+    }
+
+    setIsRecording((prev) => !prev);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <p className="text-lg font-medium text-gray-800 mb-4">{question}</p>
-      <textarea
-        ref={textareaRef}
-        className="w-full h-32 border border-gray-300 rounded-md p-3 text-gray-700 mb-4"
-        placeholder="Type your answer here..."
-        disabled={isSubmitting}
-      ></textarea>
+
+      <div className="relative">
+        <textarea
+          ref={textareaRef}
+          className="w-full h-32 border border-gray-300 rounded-md p-3 text-gray-700 mb-4"
+          placeholder="Type your answer here..."
+          disabled={isSubmitting}
+        />
+        {interimTranscript && (
+          <div className="absolute bottom-3 left-3 right-3 text-gray-500 italic pointer-events-none">
+            {interimTranscript}
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between mb-4">
+        <button
+          type="button"
+          className={`flex items-center gap-2 px-4 py-2 rounded text-white transition ${
+            isRecording ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"
+          }`}
+          onClick={handleToggleRecording}
+          disabled={isSubmitting}
+        >
+          {isRecording ? "Stop Recording" : "🎙️ Voice Input"}
+        </button>
+        <span className="text-sm text-gray-500">{isRecording && "Listening..."}</span>
+      </div>
+
       <div className="flex justify-between">
         {showPrevious && (
           <button
