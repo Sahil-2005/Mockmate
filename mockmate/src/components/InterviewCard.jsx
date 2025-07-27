@@ -39,7 +39,6 @@
 //   );
 // }
 
-
 // import React, { useState, useEffect } from "react";
 
 // export default function InterviewCard({
@@ -175,9 +174,6 @@
 //     </div>
 //   );
 // }
-
-
-
 import React, { useState, useEffect } from "react";
 
 export default function InterviewCard({
@@ -191,6 +187,7 @@ export default function InterviewCard({
 }) {
   const [isRecording, setIsRecording] = useState(false);
   const [recognition, setRecognition] = useState(null);
+  const [interimTranscript, setInterimTranscript] = useState("");
 
   useEffect(() => {
     if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
@@ -212,15 +209,21 @@ export default function InterviewCard({
     recog.onspeechend = () => console.log("🤐 Speech ended");
 
     recog.onresult = (event) => {
-      let transcript = "";
+      let interim = "";
       for (let i = event.resultIndex; i < event.results.length; ++i) {
-        transcript += event.results[i][0].transcript;
-      }
+        const result = event.results[i];
+        const transcript = result[0].transcript;
 
-      if (textareaRef.current) {
-        textareaRef.current.value += transcript;
-        textareaRef.current.focus();
+        if (result.isFinal) {
+          if (textareaRef.current) {
+            textareaRef.current.value += transcript + " ";
+            textareaRef.current.focus();
+          }
+        } else {
+          interim += transcript;
+        }
       }
+      setInterimTranscript(interim);
     };
 
     recog.onerror = (e) => {
@@ -234,6 +237,7 @@ export default function InterviewCard({
     recog.onend = () => {
       console.log("🛑 Recognition ended");
       setIsRecording(false);
+      setInterimTranscript("");
     };
 
     setRecognition(recog);
@@ -255,12 +259,19 @@ export default function InterviewCard({
     <div className="bg-white rounded-lg shadow-md p-6">
       <p className="text-lg font-medium text-gray-800 mb-4">{question}</p>
 
-      <textarea
-        ref={textareaRef}
-        className="w-full h-32 border border-gray-300 rounded-md p-3 text-gray-700 mb-4"
-        placeholder="Type or speak your answer..."
-        disabled={isSubmitting}
-      />
+      <div className="relative">
+        <textarea
+          ref={textareaRef}
+          className="w-full h-32 border border-gray-300 rounded-md p-3 text-gray-700 mb-4"
+          placeholder="Type or speak your answer..."
+          disabled={isSubmitting}
+        />
+        {interimTranscript && (
+          <div className="absolute bottom-3 left-3 right-3 text-gray-500 italic pointer-events-none">
+            {interimTranscript}
+          </div>
+        )}
+      </div>
 
       <div className="flex items-center justify-between mb-4">
         <button
