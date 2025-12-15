@@ -17,7 +17,7 @@ app.post("/api/generate-questions", async (req, res) => {
 
   try {
     // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // or gemini-1.5-pro if you prefer
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // or gemini-1.5-pro if you prefer
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // or gemini-1.5-pro if you prefer
 
     const prompt = `
 Generate 5 technical and 5 behavioral interview questions for the role of "${jobRole}".
@@ -89,7 +89,8 @@ Here are the responses:
 ${responses.map((r, i) => `Q${i + 1}: ${r.question}\nA: ${r.answer}`).join("\n\n")}
 `;
 
-    const model = genAI.getGenerativeModel({ model: "models/gemini-2.0-flash" });
+    // const model = genAI.getGenerativeModel({ model: "models/gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent(prompt);
     let text = result.response.text();
 
