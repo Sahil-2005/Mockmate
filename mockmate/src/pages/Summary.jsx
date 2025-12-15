@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../utils/api";
 
 export default function Summary() {
   const [feedback, setFeedback] = useState([]);
@@ -18,7 +19,7 @@ export default function Summary() {
 
     const fetchFeedback = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/feedback", {
+        const response = await apiFetch("/api/feedback", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ responses: combined }),
