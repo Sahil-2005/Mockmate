@@ -1,145 +1,201 @@
-# 🎯 Mockmate – AI-Powered Interview Preparation
+<div align="center">
 
-**Mockmate** is a smart web application that helps job seekers prepare for interviews by simulating real-world scenarios using AI.  
-Enter your target job role and receive **10 personalized interview questions** along with **AI-generated feedback** on your responses.  
-It’s like having a personal AI interview coach! 🚀
+# 🎯 MockMate
+
+### *Your AI-Powered Interview Coach*
+
+[![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.1-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+<p align="center">
+  <strong>Practice interviews with AI • Get instant feedback • Land your dream job</strong>
+</p>
+
+---
+
+[Features](#-features) • [Demo](#-demo) • [Installation](#-installation) • [Usage](#-usage) • [Tech Stack](#-tech-stack) • [Contributing](#-contributing)
+
+</div>
 
 ---
 
 ## ✨ Features
 
-🎤 **Role-Based Interview Simulation** – Get 10 dynamic questions tailored to your desired job role  
-🧠 **AI Feedback Engine** – Post-interview strengths/weaknesses analysis with suggestions  
-📊 **Actionable Insights** – Understand how to improve your communication and technical responses  
-⚡ **Fast & Responsive UI** – Built with React & Tailwind CSS  
-🛠️ **Scalable Backend** – Node.js & Express-powered REST API  
-🤖 **Gemini Flash 2.5 Integration** – Leverages Google’s latest AI model to generate questions and feedback
+<table>
+<tr>
+<td width="50%">
+
+### 🤖 AI-Powered Interviews
+Practice with intelligent AI that adapts to your responses and provides realistic interview scenarios.
+
+### 📊 Instant Feedback
+Receive detailed feedback cards with actionable insights to improve your performance.
+
+</td>
+<td width="50%">
+
+### 📝 Interview Summary
+Get comprehensive summaries of your practice sessions with strengths and areas for improvement.
+
+### 🎨 Beautiful UI
+Modern, responsive design with smooth animations for an engaging experience.
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Demo
 
-| Layer       | Technology                        |
-|------------|------------------------------------|
-| Frontend   | React, Tailwind CSS                |
-| Backend    | Node.js, Express                   |
-| AI Model   | Google Gemini Flash 2.5            |
-| API Type   | RESTful APIs                       |
-| Deployment | (Add platform: e.g. Vercel/Render) |
+> Experience MockMate in action! Practice interviews anytime, anywhere.
 
----
+<div align="center">
 
-## 📂 Project Structure
+### 🔗 **[Live Demo](https://mockmateinterview.vercel.app/)**
 
-Mockmate/
-│── client/ # React + Tailwind frontend
-│── server/ # Node.js + Express backend
-│── .env # API keys and config (not committed)
-│── README.md # Project documentation
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://mockmateinterview.vercel.app/)
 
-yaml
-Copy code
+</div>
 
 ---
 
-## 🚀 Getting Started
+## 📦 Installation
 
-Follow these steps to set up and run the project locally.
+### Prerequisites
 
-### 1️⃣ Clone the Repository
+- **Node.js** (v18 or higher)
+- **npm** or **yarn**
+
+### Quick Start
 
 ```bash
-git clone https://github.com/Sahil-2005/Mockmate.git
-cd Mockmate
-2️⃣ Install Dependencies
-Frontend:
+# Clone the repository
+git clone https://github.com/yourusername/mockmate.git
 
-bash
-Copy code
-cd client
+# Navigate to the project directory
+cd mockmate
+
+# Install dependencies
 npm install
-Backend:
 
-bash
-Copy code
-cd ../server
-npm install
-3️⃣ Set Up Environment Variables
-In the server/ folder, create a .env file:
-
-ini
-Copy code
-GEMINI_API_KEY=your_google_gemini_flash_api_key
-PORT=3001
-4️⃣ Run the Application
-Start the backend:
-
-bash
-Copy code
-cd server
+# Start the development server
 npm run dev
-Start the frontend:
+```
 
-bash
-Copy code
-cd ../client
-npm start
-Visit the app at 👉 http://localhost:3000
+### Server Setup
 
-🧪 How It Works
-User enters a job role in the UI.
+```bash
+# Navigate to server directory
+cd server
 
-The frontend sends the role to the Node.js backend.
+# Install server dependencies
+npm install
 
-The backend calls the Gemini Flash 2.5 API, which:
+# Start the backend server
+node index.js
+```
 
-Generates 10 role-specific interview questions
+---
 
-Provides feedback on user responses (strengths, weaknesses, and suggestions)
+## 🎮 Usage
 
-The results are returned to the frontend and displayed elegantly.
+1. **🏠 Home Page** - Learn about MockMate and its features
+2. **▶️ Start Interview** - Begin your AI-powered mock interview
+3. **💬 Answer Questions** - Respond to interview questions naturally
+4. **📈 Get Feedback** - Receive instant AI-generated feedback
+5. **📋 View Summary** - Review your complete interview performance
 
-📈 Roadmap
- Voice-based answers & feedback
+---
 
- Scoring system per question
+## 🛠 Tech Stack
 
- Question difficulty levels
+<div align="center">
 
- Save and track interview history
+| Frontend | Backend | Tools |
+|:--------:|:-------:|:-----:|
+| ![React](https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=black) | ![Node.js](https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white) | ![Vite](https://img.shields.io/badge/-Vite-646CFF?style=flat-square&logo=vite&logoColor=white) |
+| ![TailwindCSS](https://img.shields.io/badge/-TailwindCSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white) | ![Express](https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white) | ![ESLint](https://img.shields.io/badge/-ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white) |
+| ![React Router](https://img.shields.io/badge/-React_Router-CA4245?style=flat-square&logo=react-router&logoColor=white) | | ![jsPDF](https://img.shields.io/badge/-jsPDF-F40F02?style=flat-square&logo=adobe-acrobat-reader&logoColor=white) |
 
- Multi-role interview simulation
+</div>
 
-🤝 Contributing
-Contributions are welcome! 🎉
+---
 
-Fork the repo
+## 📁 Project Structure
 
-Create a feature branch:
+```
+mockmate/
+├── 📂 public/           # Static assets
+├── 📂 server/           # Backend server
+│   ├── index.js         # Server entry point
+│   └── package.json     # Server dependencies
+├── 📂 src/
+│   ├── 📂 assets/       # Images & media
+│   ├── 📂 components/   # Reusable components
+│   │   ├── FeedbackCard.jsx
+│   │   ├── Footer.jsx
+│   │   ├── HeroSection.jsx
+│   │   ├── HowItWorks.jsx
+│   │   ├── InterviewCard.jsx
+│   │   └── Navbar.jsx
+│   ├── 📂 pages/        # Page components
+│   │   ├── Home.jsx
+│   │   ├── Interview.jsx
+│   │   └── Summary.jsx
+│   ├── 📂 utils/        # Utility functions
+│   │   └── api.js
+│   ├── App.jsx          # Main App component
+│   └── main.jsx         # Entry point
+├── index.html           # HTML template
+├── vite.config.js       # Vite configuration
+└── package.json         # Project dependencies
+```
 
-bash
-Copy code
-git checkout -b feature-name
-Commit your changes:
+---
 
-bash
-Copy code
-git commit -m "Add feature"
-Push to your branch:
+## 📜 Available Scripts
 
-bash
-Copy code
-git push origin feature-name
-Open a Pull Request 🚀
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | 🚀 Start development server |
+| `npm run build` | 📦 Build for production |
+| `npm run preview` | 👀 Preview production build |
+| `npm run lint` | 🔍 Run ESLint |
 
-👨‍💻 Author
-🌐 Portfolio: sahil-gawade.netlify.app
-💼 LinkedIn: linkedin.com/in/sahil-gawade-920a0a242
-📌 GitHub: Sahil-2005
+---
 
-📜 License
-This project is licensed under the MIT License – feel free to use and modify it for your own projects.
+## 🤝 Contributing
 
-⭐ Support
-If you found this project helpful, don’t forget to star ⭐ the repository and share it with others!
-Your support helps improve the tool for everyone. 🚀
+Contributions are welcome! Here's how you can help:
+
+1. 🍴 **Fork** the repository
+2. 🌿 Create a **branch** (`git checkout -b feature/AmazingFeature`)
+3. 💾 **Commit** your changes (`git commit -m 'Add AmazingFeature'`)
+4. 📤 **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. 🔃 Open a **Pull Request**
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+
+### ⭐ Star this repo if you found it helpful!
+
+<br>
+
+**Made with ❤️ by [Your Name]**
+
+<br>
+
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github)](https://github.com/yourusername)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/yourprofile)
+
+</div>
